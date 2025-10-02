@@ -2,58 +2,50 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
-| Aquí se registrarán todas las rutas de la API REST.
-| Estas rutas son cargadas por RouteServiceProvider y asignadas al grupo
-| middleware "api" con prefijo automático /api
-|
 */
 
 // Ruta de prueba
 Route::get('/ping', function () {
     return response()->json([
         'message' => 'API funcionando correctamente',
-        'timestamp' => now()
+        'timestamp' => now(),
+        'version' => '1.0.0'
     ]);
 });
 
 // Rutas públicas de autenticación
-// Se implementarán en Fase 2
 Route::prefix('auth')->group(function () {
-    // POST /api/auth/register
-    // POST /api/auth/login
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
 // Rutas protegidas con Sanctum
 Route::middleware('auth:sanctum')->group(function () {
     
-    // Usuario autenticado
-    Route::get('/user', function (Request $request) {
-        return $request->user()->load('roles');
+    // Autenticación
+    Route::prefix('auth')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/me', [AuthController::class, 'me']);
     });
     
-    // Logout
-    Route::post('/auth/logout', function (Request $request) {
-        $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logout exitoso']);
+    // Facturas (Invoices)
+    Route::apiResource('invoices', InvoiceController::class);
+    Route::post('invoices/{invoice}/change-status', [InvoiceController::class, 'changeStatus']);
+    
+    // Clientes (Customers)
+    Route::apiResource('customers', CustomerController::class);
+    
+    // Usuarios (Users) - Solo Admin
+    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+        Route::apiResource('users', UserController::class)->except(['store']);
     });
-    
-    // Rutas de Facturas (Invoices)
-    // Se implementarán en Fase 2
-    // Route::apiResource('invoices', InvoiceController::class);
-    
-    // Rutas de Clientes (Customers)
-    // Se implementarán en Fase 2
-    // Route::apiResource('customers', CustomerController::class);
-    
-    // Rutas de Usuarios (Users) - Solo Admin
-    // Se implementarán en Fase 2
-    // Route::middleware('role:admin')->group(function () {
-    //     Route::apiResource('users', UserController::class)->except(['store']);
-    // });
 });
