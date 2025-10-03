@@ -1,0 +1,189 @@
+{
+  "_customer-BgQvdGkx.js": {
+    "file": "assets/customer-BgQvdGkx.js",
+    "name": "customer",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_invoice-XWfy-Ij-.js": {
+    "file": "assets/invoice-XWfy-Ij-.js",
+    "name": "invoice",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_user-B-J7oGgy.js": {
+    "file": "assets/user-B-J7oGgy.js",
+    "name": "user",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DTWS8Zmf.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/views/auth/Login.vue",
+      "resources/js/views/auth/Register.vue",
+      "resources/js/views/Dashboard.vue",
+      "resources/js/views/invoices/InvoiceList.vue",
+      "resources/js/views/invoices/InvoiceForm.vue",
+      "resources/js/views/invoices/InvoiceDetail.vue",
+      "resources/js/views/invoices/InvoiceForm.vue",
+      "resources/js/views/customers/CustomerList.vue",
+      "resources/js/views/customers/CustomerForm.vue",
+      "resources/js/views/customers/CustomerForm.vue",
+      "resources/js/views/users/UserList.vue",
+      "resources/js/views/users/UserForm.vue",
+      "resources/js/views/NotFound.vue"
+    ],
+    "css": [
+      "assets/app-khEItSMS.css"
+    ]
+  },
+  "resources/js/views/Dashboard.vue": {
+    "file": "assets/Dashboard-BHWIbiHl.js",
+    "name": "Dashboard",
+    "src": "resources/js/views/Dashboard.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_invoice-XWfy-Ij-.js"
+    ],
+    "css": [
+      "assets/Dashboard-D3MDS3cX.css"
+    ]
+  },
+  "resources/js/views/NotFound.vue": {
+    "file": "assets/NotFound-tgzmR9r9.js",
+    "name": "NotFound",
+    "src": "resources/js/views/NotFound.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "css": [
+      "assets/NotFound-0ujiOzWh.css"
+    ]
+  },
+  "resources/js/views/auth/Login.vue": {
+    "file": "assets/Login-ButEQdwB.js",
+    "name": "Login",
+    "src": "resources/js/views/auth/Login.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "css": [
+      "assets/Login-B3gjxjjL.css"
+    ]
+  },
+  "resources/js/views/auth/Register.vue": {
+    "file": "assets/Register-BROe6UH3.js",
+    "name": "Register",
+    "src": "resources/js/views/auth/Register.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "css": [
+      "assets/Register-CzZEUSTH.css"
+    ]
+  },
+  "resources/js/views/customers/CustomerForm.vue": {
+    "file": "assets/CustomerForm-BF8IG1vj.js",
+    "name": "CustomerForm",
+    "src": "resources/js/views/customers/CustomerForm.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_customer-BgQvdGkx.js"
+    ],
+    "css": [
+      "assets/CustomerForm-BogiEoYz.css"
+    ]
+  },
+  "resources/js/views/customers/CustomerList.vue": {
+    "file": "assets/CustomerList-ndMrUKUm.js",
+    "name": "CustomerList",
+    "src": "resources/js/views/customers/CustomerList.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_customer-BgQvdGkx.js"
+    ],
+    "css": [
+      "assets/CustomerList-C9BK2Iz1.css"
+    ]
+  },
+  "resources/js/views/invoices/InvoiceDetail.vue": {
+    "file": "assets/InvoiceDetail-2DwK6ifb.js",
+    "name": "InvoiceDetail",
+    "src": "resources/js/views/invoices/InvoiceDetail.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_invoice-XWfy-Ij-.js"
+    ],
+    "css": [
+      "assets/InvoiceDetail-89K0uZP9.css"
+    ]
+  },
+  "resources/js/views/invoices/InvoiceForm.vue": {
+    "file": "assets/InvoiceForm-CQZ1sgaT.js",
+    "name": "InvoiceForm",
+    "src": "resources/js/views/invoices/InvoiceForm.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_invoice-XWfy-Ij-.js",
+      "_customer-BgQvdGkx.js"
+    ],
+    "css": [
+      "assets/InvoiceForm-6O8K3Ve7.css"
+    ]
+  },
+  "resources/js/views/invoices/InvoiceList.vue": {
+    "file": "assets/InvoiceList-DUrklsAk.js",
+    "name": "InvoiceList",
+    "src": "resources/js/views/invoices/InvoiceList.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_invoice-XWfy-Ij-.js",
+      "_customer-BgQvdGkx.js"
+    ],
+    "css": [
+      "assets/InvoiceList-CAQb1oxu.css"
+    ]
+  },
+  "resources/js/views/users/UserForm.vue": {
+    "file": "assets/UserForm-DIwkmESe.js",
+    "name": "UserForm",
+    "src": "resources/js/views/users/UserForm.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_user-B-J7oGgy.js"
+    ],
+    "css": [
+      "assets/UserForm-CsJAgR-T.css"
+    ]
+  },
+  "resources/js/views/users/UserList.vue": {
+    "file": "assets/UserList-vapsLNn-.js",
+    "name": "UserList",
+    "src": "resources/js/views/users/UserList.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_user-B-J7oGgy.js"
+    ],
+    "css": [
+      "assets/UserList-CpC2ADzw.css"
+    ]
+  }
+}
