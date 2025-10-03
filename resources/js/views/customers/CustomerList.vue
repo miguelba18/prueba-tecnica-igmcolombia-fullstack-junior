@@ -1,9 +1,7 @@
 <template>
     <div class="customer-list">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>
-                <i class="bi bi-people"></i> Clientes
-            </h2>
+            <h2><i class="bi bi-people"></i> Clientes</h2>
             <router-link to="/customers/create" class="btn btn-success">
                 <i class="bi bi-person-plus me-2"></i>
                 Nuevo Cliente
@@ -29,18 +27,29 @@
                     <!-- Tipo de Documento -->
                     <div class="col-md-4">
                         <label class="form-label">Tipo de Documento</label>
-                        <select class="form-select" v-model="filters.document_type" @change="applyFilters">
+                        <select
+                            class="form-select"
+                            v-model="filters.document_type"
+                            @change="applyFilters"
+                        >
                             <option value="">Todos</option>
-                            <option value="CC">Cédula de Ciudadanía (CC)</option>
+                            <option value="CC">
+                                Cédula de Ciudadanía (CC)
+                            </option>
                             <option value="NIT">NIT</option>
-                            <option value="CE">Cédula de Extranjería (CE)</option>
+                            <option value="CE">
+                                Cédula de Extranjería (CE)
+                            </option>
                             <option value="PA">Pasaporte (PA)</option>
                         </select>
                     </div>
 
                     <!-- Limpiar -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button @click="clearFilters" class="btn btn-outline-secondary w-100">
+                        <button
+                            @click="clearFilters"
+                            class="btn btn-outline-secondary w-100"
+                        >
                             <i class="bi bi-x-circle me-1"></i>
                             Limpiar
                         </button>
@@ -67,8 +76,11 @@
                 </div>
 
                 <!-- Sin resultados -->
-                <div v-else-if="customers.length === 0" class="text-center py-5 text-muted">
-                    <i class="bi bi-person-x" style="font-size: 3rem;"></i>
+                <div
+                    v-else-if="customers.length === 0"
+                    class="text-center py-5 text-muted"
+                >
+                    <i class="bi bi-person-x" style="font-size: 3rem"></i>
                     <p class="mt-3">No se encontraron clientes</p>
                     <router-link to="/customers/create" class="btn btn-success">
                         Crear primer cliente
@@ -90,18 +102,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="customer in customers" :key="customer.id">
+                                <tr
+                                    v-for="customer in customers"
+                                    :key="customer.id"
+                                >
                                     <td>
-                                        <strong>{{ customer.full_name }}</strong>
+                                        <strong>{{
+                                            customer.full_name
+                                        }}</strong>
                                     </td>
                                     <td>
-                                        <span class="badge bg-secondary">{{ customer.document_type }}</span>
+                                        <span class="badge bg-secondary">{{
+                                            customer.document_type
+                                        }}</span>
                                     </td>
                                     <td>{{ customer.document_number }}</td>
                                     <td>
-                                        <a :href="`mailto:${customer.email}`">{{ customer.email }}</a>
+                                        <a :href="`mailto:${customer.email}`">{{
+                                            customer.email
+                                        }}</a>
                                     </td>
-                                    <td>{{ customer.phone || '-' }}</td>
+                                    <td>{{ customer.phone || "-" }}</td>
                                     <td class="text-end">
                                         <div class="btn-group btn-group-sm">
                                             <router-link
@@ -109,14 +130,18 @@
                                                 class="btn btn-outline-warning"
                                                 title="Editar"
                                             >
-                                                <i class="bi bi-pencil">Editar</i>
+                                                <i class="bi bi-pencil"
+                                                    >Editar</i
+                                                >
                                             </router-link>
                                             <button
                                                 @click="confirmDelete(customer)"
                                                 class="btn btn-outline-danger"
                                                 title="Eliminar"
                                             >
-                                                <i class="bi bi-trash">Eliminar</i>
+                                                <i class="bi bi-trash"
+                                                    >Eliminar</i
+                                                >
                                             </button>
                                         </div>
                                     </td>
@@ -126,14 +151,30 @@
                     </div>
 
                     <!-- Paginación -->
-                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div
+                        class="d-flex justify-content-between align-items-center mt-3"
+                    >
                         <div class="text-muted">
-                            Mostrando {{ customers.length }} de {{ pagination.total }} clientes
+                            Mostrando {{ customers.length }} de
+                            {{ pagination.total }} clientes
                         </div>
                         <nav>
                             <ul class="pagination mb-0">
-                                <li class="page-item" :class="{ disabled: pagination.currentPage === 1 }">
-                                    <a class="page-link" href="#" @click.prevent="changePage(pagination.currentPage - 1)">
+                                <li
+                                    class="page-item"
+                                    :class="{
+                                        disabled: pagination.currentPage === 1,
+                                    }"
+                                >
+                                    <a
+                                        class="page-link"
+                                        href="#"
+                                        @click.prevent="
+                                            changePage(
+                                                pagination.currentPage - 1
+                                            )
+                                        "
+                                    >
                                         Anterior
                                     </a>
                                 </li>
@@ -141,14 +182,35 @@
                                     v-for="page in displayPages"
                                     :key="page"
                                     class="page-item"
-                                    :class="{ active: page === pagination.currentPage }"
+                                    :class="{
+                                        active: page === pagination.currentPage,
+                                    }"
                                 >
-                                    <a class="page-link" href="#" @click.prevent="changePage(page)">
+                                    <a
+                                        class="page-link"
+                                        href="#"
+                                        @click.prevent="changePage(page)"
+                                    >
                                         {{ page }}
                                     </a>
                                 </li>
-                                <li class="page-item" :class="{ disabled: pagination.currentPage === pagination.lastPage }">
-                                    <a class="page-link" href="#" @click.prevent="changePage(pagination.currentPage + 1)">
+                                <li
+                                    class="page-item"
+                                    :class="{
+                                        disabled:
+                                            pagination.currentPage ===
+                                            pagination.lastPage,
+                                    }"
+                                >
+                                    <a
+                                        class="page-link"
+                                        href="#"
+                                        @click.prevent="
+                                            changePage(
+                                                pagination.currentPage + 1
+                                            )
+                                        "
+                                    >
                                         Siguiente
                                     </a>
                                 </li>
@@ -162,11 +224,12 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, reactive } from 'vue';
-import { useCustomerStore } from '@/stores/customer';
+import { computed, onMounted, reactive } from "vue";
+import { useCustomerStore } from "@/stores/customer";
+import Swal from "sweetalert2";
 
 export default {
-    name: 'CustomerList',
+    name: "CustomerList",
     setup() {
         const customerStore = useCustomerStore();
 
@@ -176,8 +239,8 @@ export default {
         const pagination = computed(() => customerStore.pagination);
 
         const filters = reactive({
-            search: '',
-            document_type: ''
+            search: "",
+            document_type: "",
         });
 
         let searchTimeout = null;
@@ -199,8 +262,8 @@ export default {
         };
 
         const clearFilters = () => {
-            filters.search = '';
-            filters.document_type = '';
+            filters.search = "";
+            filters.document_type = "";
             customerStore.clearFilters();
             loadCustomers(1);
         };
@@ -208,7 +271,7 @@ export default {
         const changePage = (page) => {
             if (page >= 1 && page <= pagination.value.lastPage) {
                 loadCustomers(page);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: "smooth" });
             }
         };
 
@@ -224,17 +287,18 @@ export default {
             } else {
                 if (current <= 4) {
                     for (let i = 1; i <= 5; i++) pages.push(i);
-                    pages.push('...');
+                    pages.push("...");
                     pages.push(last);
                 } else if (current >= last - 3) {
                     pages.push(1);
-                    pages.push('...');
+                    pages.push("...");
                     for (let i = last - 4; i <= last; i++) pages.push(i);
                 } else {
                     pages.push(1);
-                    pages.push('...');
-                    for (let i = current - 1; i <= current + 1; i++) pages.push(i);
-                    pages.push('...');
+                    pages.push("...");
+                    for (let i = current - 1; i <= current + 1; i++)
+                        pages.push(i);
+                    pages.push("...");
                     pages.push(last);
                 }
             }
@@ -243,12 +307,31 @@ export default {
         });
 
         const confirmDelete = async (customer) => {
-            if (confirm(`¿Estás seguro de eliminar al cliente ${customer.full_name}?\n\nNota: No se puede eliminar si tiene facturas asociadas.`)) {
+            const result = await Swal.fire({
+                title: "¿Estás seguro?",
+                text: `Se eliminará al cliente ${customer.full_name}.\n\nNota: No se puede eliminar si tiene facturas asociadas.`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar",
+            });
+
+            if (result.isConfirmed) {
                 try {
                     await customerStore.deleteCustomer(customer.id);
-                    alert('Cliente eliminado exitosamente');
+                    await Swal.fire(
+                        "Eliminado",
+                        `El cliente ${customer.full_name} fue eliminado exitosamente.`,
+                        "success"
+                    );
                 } catch (error) {
-                    alert(customerStore.error || 'Error al eliminar el cliente');
+                    Swal.fire(
+                        "Error",
+                        customerStore.error || "Error al eliminar el cliente.",
+                        "error"
+                    );
                 }
             }
         };
@@ -268,9 +351,9 @@ export default {
             debouncedSearch,
             clearFilters,
             changePage,
-            confirmDelete
+            confirmDelete,
         };
-    }
+    },
 };
 </script>
 

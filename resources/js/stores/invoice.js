@@ -139,32 +139,61 @@ export const useInvoiceStore = defineStore('invoice', {
         },
 
         // Actualizar factura
-        async updateInvoice(id, invoiceData) {
-            this.loading = true;
-            this.error = null;
+        // Actualizar factura
+async updateInvoice(id, invoiceData) {
+    this.loading = true;
+    this.error = null;
 
-            try {
-                const response = await invoicesAPI.update(id, invoiceData);
-                
-                // Actualizar en la lista
-                const index = this.invoices.findIndex(inv => inv.id === id);
-                if (index !== -1) {
-                    this.invoices[index] = response.data.data;
-                }
+    try {
+        const formData = new FormData();
 
-                // Actualizar currentInvoice si es la misma
-                if (this.currentInvoice?.id === id) {
-                    this.currentInvoice = response.data.data;
-                }
-
-                return response.data;
-            } catch (error) {
-                this.error = error.response?.data?.message || 'Error al actualizar factura';
-                throw error;
-            } finally {
-                this.loading = false;
+        // Campos principales
+        Object.keys(invoiceData).forEach(key => {
+            if (key !== 'items' && key !== 'attachment') {
+                formData.append(key, invoiceData[key]);
             }
-        },
+        });
+
+        // Items
+        if (invoiceData.items && invoiceData.items.length > 0) {
+            invoiceData.items.forEach((item, index) => {
+                Object.keys(item).forEach(key => {
+                    formData.append(`items[${index}][${key}]`, item[key]);
+                });
+            });
+        }
+
+        // Archivo adjunto (solo si se manda uno nuevo)
+        if (invoiceData.attachment instanceof File) {
+            formData.append('attachment', invoiceData.attachment);
+        }
+
+        // Método PUT simulado (porque Laravel no procesa bien archivos con PUT directo)
+        formData.append('_method', 'PUT');
+
+        const response = await invoicesAPI.update(id, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        // Actualizar lista
+        const index = this.invoices.findIndex(inv => inv.id === id);
+        if (index !== -1) {
+            this.invoices[index] = response.data.data;
+        }
+
+        // Actualizar currentInvoice si es la misma
+        if (this.currentInvoice?.id === id) {
+            this.currentInvoice = response.data.data;
+        }
+
+        return response.data;
+    } catch (error) {
+        this.error = error.response?.data?.message || 'Error al actualizar factura';
+        throw error;
+    } finally {
+        this.loading = false;
+    }
+},
 
         // Eliminar factura
         async deleteInvoice(id) {

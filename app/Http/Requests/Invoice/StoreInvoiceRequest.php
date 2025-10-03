@@ -11,6 +11,22 @@ class StoreInvoiceRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Preparar datos antes de la validación
+     * Convierte items de string JSON a array si viene de form-data
+     */
+    protected function prepareForValidation()
+    {
+        // Si items viene como string (form-data), convertirlo a array
+        if ($this->has('items') && is_string($this->items)) {
+            $items = json_decode($this->items, true);
+            
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $this->merge(['items' => $items]);
+            }
+        }
+    }
+
     public function rules(): array
     {
         return [
@@ -41,6 +57,7 @@ class StoreInvoiceRequest extends FormRequest
             'attachment.mimes' => 'El archivo debe ser PDF, JPG, JPEG o PNG.',
             'attachment.max' => 'El archivo no puede superar los 5MB.',
             'items.required' => 'Debe agregar al menos un artículo.',
+            'items.array' => 'Los items deben ser un array válido.',
             'items.*.name.required' => 'El nombre del artículo es obligatorio.',
             'items.*.quantity.required' => 'La cantidad es obligatoria.',
             'items.*.quantity.min' => 'La cantidad debe ser al menos 1.',

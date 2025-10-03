@@ -75,8 +75,18 @@ export const invoicesAPI = {
         });
     },
     update(id, data) {
-        return api.put(`/invoices/${id}`, data);
-    },
+  
+    if (data instanceof FormData) {
+        data.append('_method', 'PUT');
+        return api.post(`/invoices/${id}`, data, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+    }
+
+    
+    return api.put(`/invoices/${id}`, data);
+}
+,
     delete(id) {
         return api.delete(`/invoices/${id}`);
     },

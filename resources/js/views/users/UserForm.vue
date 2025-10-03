@@ -166,6 +166,7 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useAuthStore } from '@/stores/auth';
+import Swal from 'sweetalert2';
 
 export default {
     name: 'UserForm',
@@ -237,7 +238,7 @@ export default {
                 }
 
                 await userStore.updateUser(route.params.id, dataToSend);
-                success.value = 'Usuario actualizado exitosamente';
+                Swal.fire('✅ Actualizado', 'El usuario fue actualizado exitosamente', 'success');
 
                 // Si el usuario editó su propia información, actualizar el estado de auth
                 if (isCurrentUser.value) {

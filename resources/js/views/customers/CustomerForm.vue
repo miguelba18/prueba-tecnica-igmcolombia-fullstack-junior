@@ -2,8 +2,8 @@
     <div class="customer-form">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>
-                <i class="bi bi-person"></i> 
-                {{ isEditMode ? 'Editar Cliente' : 'Nuevo Cliente' }}
+                <i class="bi bi-person"></i>
+                {{ isEditMode ? "Editar Cliente" : "Nuevo Cliente" }}
             </h2>
             <router-link to="/customers" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-2"></i>
@@ -12,16 +12,30 @@
         </div>
 
         <!-- Alertas -->
-        <div v-if="error" class="alert alert-danger alert-dismissible fade show">
+        <div
+            v-if="error"
+            class="alert alert-danger alert-dismissible fade show"
+        >
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
             {{ error }}
-            <button type="button" class="btn-close" @click="error = null"></button>
+            <button
+                type="button"
+                class="btn-close"
+                @click="error = null"
+            ></button>
         </div>
 
-        <div v-if="success" class="alert alert-success alert-dismissible fade show">
+        <div
+            v-if="success"
+            class="alert alert-success alert-dismissible fade show"
+        >
             <i class="bi bi-check-circle-fill me-2"></i>
             {{ success }}
-            <button type="button" class="btn-close" @click="success = null"></button>
+            <button
+                type="button"
+                class="btn-close"
+                @click="success = null"
+            ></button>
         </div>
 
         <div class="row">
@@ -64,24 +78,34 @@
 
                                 <!-- Tipo de Documento -->
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Tipo de Documento *</label>
-                                    <select 
-                                        class="form-select" 
+                                    <label class="form-label"
+                                        >Tipo de Documento *</label
+                                    >
+                                    <select
+                                        class="form-select"
                                         v-model="formData.document_type"
                                         required
                                         :disabled="loading"
                                     >
                                         <option value="">Seleccionar...</option>
-                                        <option value="CC">Cédula de Ciudadanía (CC)</option>
+                                        <option value="CC">
+                                            Cédula de Ciudadanía (CC)
+                                        </option>
                                         <option value="NIT">NIT</option>
-                                        <option value="CE">Cédula de Extranjería (CE)</option>
-                                        <option value="PA">Pasaporte (PA)</option>
+                                        <option value="CE">
+                                            Cédula de Extranjería (CE)
+                                        </option>
+                                        <option value="PA">
+                                            Pasaporte (PA)
+                                        </option>
                                     </select>
                                 </div>
 
                                 <!-- Número de Documento -->
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Número de Documento *</label>
+                                    <label class="form-label"
+                                        >Número de Documento *</label
+                                    >
                                     <input
                                         type="text"
                                         class="form-control"
@@ -133,33 +157,38 @@
                                         placeholder="Dirección completa..."
                                         :disabled="loading"
                                     ></textarea>
-                                    <small class="text-muted">
-                                        Opcional
-                                    </small>
+                                    <small class="text-muted"> Opcional </small>
                                 </div>
                             </div>
 
                             <!-- Botones -->
                             <div class="d-flex justify-content-end gap-2 mt-4">
-                                <router-link 
-                                    to="/customers" 
+                                <router-link
+                                    to="/customers"
                                     class="btn btn-outline-secondary"
                                     :class="{ disabled: loading }"
                                 >
                                     Cancelar
                                 </router-link>
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     class="btn btn-success"
                                     :disabled="loading"
                                 >
                                     <span v-if="loading">
-                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                        <span
+                                            class="spinner-border spinner-border-sm me-2"
+                                        ></span>
                                         Guardando...
                                     </span>
                                     <span v-else>
                                         <i class="bi bi-save me-2"></i>
-                                        {{ isEditMode ? 'Actualizar' : 'Guardar' }} Cliente
+                                        {{
+                                            isEditMode
+                                                ? "Actualizar"
+                                                : "Guardar"
+                                        }}
+                                        Cliente
                                     </span>
                                 </button>
                             </div>
@@ -172,12 +201,13 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useCustomerStore } from '@/stores/customer';
+import { ref, reactive, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useCustomerStore } from "@/stores/customer";
+import Swal from "sweetalert2";
 
 export default {
-    name: 'CustomerForm',
+    name: "CustomerForm",
     setup() {
         const route = useRoute();
         const router = useRouter();
@@ -189,29 +219,31 @@ export default {
         const success = ref(null);
 
         const formData = reactive({
-            first_name: '',
-            last_name: '',
-            document_type: '',
-            document_number: '',
-            email: '',
-            phone: '',
-            address: ''
+            first_name: "",
+            last_name: "",
+            document_type: "",
+            document_number: "",
+            email: "",
+            phone: "",
+            address: "",
         });
 
         const loadCustomer = async () => {
             if (isEditMode.value) {
                 loading.value = true;
                 try {
-                    const customer = await customerStore.fetchCustomer(route.params.id);
+                    const customer = await customerStore.fetchCustomer(
+                        route.params.id
+                    );
                     formData.first_name = customer.first_name;
                     formData.last_name = customer.last_name;
                     formData.document_type = customer.document_type;
                     formData.document_number = customer.document_number;
                     formData.email = customer.email;
-                    formData.phone = customer.phone || '';
-                    formData.address = customer.address || '';
+                    formData.phone = customer.phone || "";
+                    formData.address = customer.address || "";
                 } catch (err) {
-                    error.value = 'Error al cargar el cliente';
+                    error.value = "Error al cargar el cliente";
                 } finally {
                     loading.value = false;
                 }
@@ -225,19 +257,31 @@ export default {
 
             try {
                 if (isEditMode.value) {
-                    await customerStore.updateCustomer(route.params.id, formData);
-                    success.value = 'Cliente actualizado exitosamente';
+                    await customerStore.updateCustomer(
+                        route.params.id,
+                        formData
+                    );
+                    Swal.fire(
+                        "✅ Actualizada",
+                        "El cliente fue actualizado exitosamente",
+                        "success"
+                    );
                 } else {
                     await customerStore.createCustomer(formData);
-                    success.value = 'Cliente creado exitosamente';
+                    Swal.fire(
+                        "✅ Actualizada",
+                        "El cliente fue creado exitosamente",
+                        "success"
+                    );
                 }
 
                 // Redirigir después de 1.5 segundos
                 setTimeout(() => {
-                    router.push('/customers');
+                    router.push("/customers");
                 }, 1500);
             } catch (err) {
-                error.value = customerStore.error || 'Error al guardar el cliente';
+                error.value =
+                    customerStore.error || "Error al guardar el cliente";
             } finally {
                 loading.value = false;
             }
@@ -253,9 +297,9 @@ export default {
             error,
             success,
             formData,
-            handleSubmit
+            handleSubmit,
         };
-    }
+    },
 };
 </script>
 

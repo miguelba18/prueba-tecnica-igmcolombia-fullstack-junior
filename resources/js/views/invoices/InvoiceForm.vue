@@ -2,8 +2,8 @@
     <div class="invoice-form">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>
-                <i class="bi bi-receipt"></i> 
-                {{ isEditMode ? 'Editar Factura' : 'Nueva Factura' }}
+                <i class="bi bi-receipt"></i>
+                {{ isEditMode ? "Editar Factura" : "Nueva Factura" }}
             </h2>
             <router-link to="/invoices" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-2"></i>
@@ -12,10 +12,17 @@
         </div>
 
         <!-- Alertas -->
-        <div v-if="error" class="alert alert-danger alert-dismissible fade show">
+        <div
+            v-if="error"
+            class="alert alert-danger alert-dismissible fade show"
+        >
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
             {{ error }}
-            <button type="button" class="btn-close" @click="error = null"></button>
+            <button
+                type="button"
+                class="btn-close"
+                @click="error = null"
+            ></button>
         </div>
 
         <form @submit.prevent="handleSubmit">
@@ -32,19 +39,20 @@
                         <!-- Cliente -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Cliente *</label>
-                            <select 
-                                class="form-select" 
+                            <select
+                                class="form-select"
                                 v-model="formData.customer_id"
                                 required
                                 :disabled="loading"
                             >
                                 <option value="">Seleccionar cliente...</option>
-                                <option 
-                                    v-for="customer in customers" 
-                                    :key="customer.id" 
+                                <option
+                                    v-for="customer in customers"
+                                    :key="customer.id"
                                     :value="customer.id"
                                 >
-                                    {{ customer.full_name }} - {{ customer.document_number }}
+                                    {{ customer.full_name }} -
+                                    {{ customer.document_number }}
                                 </option>
                             </select>
                         </div>
@@ -52,7 +60,11 @@
                         <!-- Estado -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Estado</label>
-                            <select class="form-select" v-model="formData.status" :disabled="loading">
+                            <select
+                                class="form-select"
+                                v-model="formData.status"
+                                :disabled="loading"
+                            >
                                 <option value="pending">Pendiente</option>
                                 <option value="paid">Pagada</option>
                                 <option value="overdue">Vencida</option>
@@ -62,9 +74,9 @@
                         <!-- Fecha de Emisión -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Fecha de Emisión *</label>
-                            <input 
-                                type="date" 
-                                class="form-control" 
+                            <input
+                                type="date"
+                                class="form-control"
                                 v-model="formData.issue_date"
                                 required
                                 :disabled="loading"
@@ -73,10 +85,12 @@
 
                         <!-- Fecha de Vencimiento -->
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Fecha de Vencimiento *</label>
-                            <input 
-                                type="date" 
-                                class="form-control" 
+                            <label class="form-label"
+                                >Fecha de Vencimiento *</label
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
                                 v-model="formData.due_date"
                                 required
                                 :disabled="loading"
@@ -86,8 +100,8 @@
                         <!-- Descripción -->
                         <div class="col-12 mb-3">
                             <label class="form-label">Descripción</label>
-                            <textarea 
-                                class="form-control" 
+                            <textarea
+                                class="form-control"
                                 rows="2"
                                 v-model="formData.description"
                                 placeholder="Descripción de la factura..."
@@ -98,8 +112,8 @@
                         <!-- Notas -->
                         <div class="col-12 mb-3">
                             <label class="form-label">Notas Adicionales</label>
-                            <textarea 
-                                class="form-control" 
+                            <textarea
+                                class="form-control"
                                 rows="2"
                                 v-model="formData.notes"
                                 placeholder="Notas adicionales..."
@@ -109,15 +123,22 @@
 
                         <!-- Archivo Adjunto -->
                         <div class="col-12">
-                            <label class="form-label">Archivo Adjunto (PDF, JPG, PNG - Máx. 5MB)</label>
-                            <input 
-                                type="file" 
+                            <label class="form-label"
+                                >Archivo Adjunto (PDF, JPG, PNG - Máx.
+                                5MB)</label
+                            >
+
+                            <!-- Input para subir nuevo archivo -->
+                            <input
+                                type="file"
                                 class="form-control"
                                 @change="handleFileUpload"
                                 accept=".pdf,.jpg,.jpeg,.png"
                                 :disabled="loading"
                             />
-                            <small class="text-muted">Formatos permitidos: PDF, JPG, PNG</small>
+                            <small class="text-muted"
+                                >Formatos permitidos: PDF, JPG, PNG</small
+                            >
                         </div>
                     </div>
                 </div>
@@ -125,13 +146,15 @@
 
             <!-- Items de la Factura -->
             <div class="card mb-4">
-                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <div
+                    class="card-header bg-success text-white d-flex justify-content-between align-items-center"
+                >
                     <h5 class="mb-0">
                         <i class="bi bi-list-ul me-2"></i>
                         Items de la Factura
                     </h5>
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         class="btn btn-light btn-sm"
                         @click="addItem"
                         :disabled="loading"
@@ -141,18 +164,25 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <div v-if="formData.items.length === 0" class="text-center py-4 text-muted">
-                        <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                    <div
+                        v-if="formData.items.length === 0"
+                        class="text-center py-4 text-muted"
+                    >
+                        <i class="bi bi-inbox" style="font-size: 2rem"></i>
                         <p class="mt-2">No hay items agregados</p>
                     </div>
 
-                    <div v-for="(item, index) in formData.items" :key="index" class="item-row mb-3 p-3 border rounded">
+                    <div
+                        v-for="(item, index) in formData.items"
+                        :key="index"
+                        class="item-row mb-3 p-3 border rounded"
+                    >
                         <div class="row">
                             <!-- Nombre -->
                             <div class="col-md-3 mb-2">
                                 <label class="form-label small">Nombre *</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     class="form-control form-control-sm"
                                     v-model="item.name"
                                     placeholder="Nombre del item"
@@ -163,9 +193,11 @@
 
                             <!-- Descripción -->
                             <div class="col-md-2 mb-2">
-                                <label class="form-label small">Descripción</label>
-                                <input 
-                                    type="text" 
+                                <label class="form-label small"
+                                    >Descripción</label
+                                >
+                                <input
+                                    type="text"
                                     class="form-control form-control-sm"
                                     v-model="item.description"
                                     placeholder="Descripción"
@@ -175,9 +207,11 @@
 
                             <!-- Cantidad -->
                             <div class="col-md-2 mb-2">
-                                <label class="form-label small">Cantidad *</label>
-                                <input 
-                                    type="number" 
+                                <label class="form-label small"
+                                    >Cantidad *</label
+                                >
+                                <input
+                                    type="number"
                                     class="form-control form-control-sm"
                                     v-model.number="item.quantity"
                                     min="1"
@@ -189,9 +223,11 @@
 
                             <!-- Precio Unitario -->
                             <div class="col-md-2 mb-2">
-                                <label class="form-label small">Precio Unit. *</label>
-                                <input 
-                                    type="number" 
+                                <label class="form-label small"
+                                    >Precio Unit. *</label
+                                >
+                                <input
+                                    type="number"
                                     class="form-control form-control-sm"
                                     v-model.number="item.unit_price"
                                     min="0"
@@ -204,9 +240,11 @@
 
                             <!-- IVA -->
                             <div class="col-md-2 mb-2">
-                                <label class="form-label small">IVA (%) *</label>
-                                <input 
-                                    type="number" 
+                                <label class="form-label small"
+                                    >IVA (%) *</label
+                                >
+                                <input
+                                    type="number"
                                     class="form-control form-control-sm"
                                     v-model.number="item.tax_rate"
                                     min="0"
@@ -220,8 +258,8 @@
 
                             <!-- Botón Eliminar -->
                             <div class="col-md-1 mb-2 d-flex align-items-end">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     class="btn btn-danger btn-sm w-100"
                                     @click="removeItem(index)"
                                     :disabled="loading"
@@ -233,7 +271,9 @@
                             <!-- Total del Item -->
                             <div class="col-12">
                                 <div class="text-end text-muted small">
-                                    Total: ${{ formatNumber(calculateItemTotal(item)) }}
+                                    Total: ${{
+                                        formatNumber(calculateItemTotal(item))
+                                    }}
                                 </div>
                             </div>
                         </div>
@@ -250,15 +290,25 @@
                             <table class="table table-sm">
                                 <tr>
                                     <td><strong>Subtotal:</strong></td>
-                                    <td class="text-end">${{ formatNumber(totals.subtotal) }}</td>
+                                    <td class="text-end">
+                                        ${{ formatNumber(totals.subtotal) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><strong>IVA:</strong></td>
-                                    <td class="text-end">${{ formatNumber(totals.tax) }}</td>
+                                    <td class="text-end">
+                                        ${{ formatNumber(totals.tax) }}
+                                    </td>
                                 </tr>
                                 <tr class="table-primary">
                                     <td><strong>TOTAL:</strong></td>
-                                    <td class="text-end"><strong>${{ formatNumber(totals.total) }}</strong></td>
+                                    <td class="text-end">
+                                        <strong
+                                            >${{
+                                                formatNumber(totals.total)
+                                            }}</strong
+                                        >
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -268,17 +318,27 @@
 
             <!-- Botones de acción -->
             <div class="d-flex justify-content-end gap-2">
-                <router-link to="/invoices" class="btn btn-outline-secondary" :class="{ disabled: loading }">
+                <router-link
+                    to="/invoices"
+                    class="btn btn-outline-secondary"
+                    :class="{ disabled: loading }"
+                >
                     Cancelar
                 </router-link>
-                <button type="submit" class="btn btn-primary" :disabled="loading || formData.items.length === 0">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    :disabled="loading || formData.items.length === 0"
+                >
                     <span v-if="loading">
-                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        <span
+                            class="spinner-border spinner-border-sm me-2"
+                        ></span>
                         Guardando...
                     </span>
                     <span v-else>
                         <i class="bi bi-save me-2"></i>
-                        {{ isEditMode ? 'Actualizar' : 'Guardar' }} Factura
+                        {{ isEditMode ? "Actualizar" : "Guardar" }} Factura
                     </span>
                 </button>
             </div>
@@ -287,13 +347,14 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useInvoiceStore } from '@/stores/invoice';
-import { useCustomerStore } from '@/stores/customer';
+import { ref, reactive, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useInvoiceStore } from "@/stores/invoice";
+import { useCustomerStore } from "@/stores/customer";
+import Swal from "sweetalert2";
 
 export default {
-    name: 'InvoiceForm',
+    name: "InvoiceForm",
     setup() {
         const route = useRoute();
         const router = useRouter();
@@ -306,30 +367,32 @@ export default {
         const customers = ref([]);
 
         const formData = reactive({
-            customer_id: '',
-            description: '',
-            notes: '',
-            issue_date: new Date().toISOString().split('T')[0],
-            due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-            status: 'pending',
+            customer_id: "",
+            description: "",
+            notes: "",
+            issue_date: new Date().toISOString().split("T")[0],
+            due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                .toISOString()
+                .split("T")[0],
+            status: "pending",
             attachment: null,
-            items: []
+            items: [],
         });
 
         const totals = computed(() => {
             const subtotal = formData.items.reduce((sum, item) => {
-                return sum + (item.quantity * item.unit_price);
+                return sum + item.quantity * item.unit_price;
             }, 0);
 
             const tax = formData.items.reduce((sum, item) => {
                 const itemSubtotal = item.quantity * item.unit_price;
-                return sum + (itemSubtotal * (item.tax_rate / 100));
+                return sum + itemSubtotal * (item.tax_rate / 100);
             }, 0);
 
             return {
                 subtotal,
                 tax,
-                total: subtotal + tax
+                total: subtotal + tax,
             };
         });
 
@@ -341,22 +404,24 @@ export default {
             if (isEditMode.value) {
                 loading.value = true;
                 try {
-                    const invoice = await invoiceStore.fetchInvoice(route.params.id);
+                    const invoice = await invoiceStore.fetchInvoice(
+                        route.params.id
+                    );
                     formData.customer_id = invoice.customer.id;
-                    formData.description = invoice.description || '';
-                    formData.notes = invoice.notes || '';
+                    formData.description = invoice.description || "";
+                    formData.notes = invoice.notes || "";
                     formData.issue_date = invoice.issue_date;
                     formData.due_date = invoice.due_date;
                     formData.status = invoice.status;
-                    formData.items = invoice.items.map(item => ({
+                    formData.items = invoice.items.map((item) => ({
                         name: item.name,
-                        description: item.description || '',
+                        description: item.description || "",
                         quantity: item.quantity,
                         unit_price: parseFloat(item.unit_price),
-                        tax_rate: parseFloat(item.tax_rate)
+                        tax_rate: parseFloat(item.tax_rate),
                     }));
                 } catch (err) {
-                    error.value = 'Error al cargar la factura';
+                    error.value = "Error al cargar la factura";
                 } finally {
                     loading.value = false;
                 }
@@ -365,11 +430,11 @@ export default {
 
         const addItem = () => {
             formData.items.push({
-                name: '',
-                description: '',
+                name: "",
+                description: "",
                 quantity: 1,
                 unit_price: 0,
-                tax_rate: 19
+                tax_rate: 19,
             });
         };
 
@@ -388,8 +453,8 @@ export default {
             if (file) {
                 // Validar tamaño (5MB)
                 if (file.size > 5 * 1024 * 1024) {
-                    error.value = 'El archivo no puede superar los 5MB';
-                    event.target.value = '';
+                    error.value = "El archivo no puede superar los 5MB";
+                    event.target.value = "";
                     return;
                 }
                 formData.attachment = file;
@@ -398,7 +463,7 @@ export default {
 
         const handleSubmit = async () => {
             if (formData.items.length === 0) {
-                error.value = 'Debes agregar al menos un item';
+                error.value = "Debes agregar al menos un item";
                 return;
             }
 
@@ -408,27 +473,37 @@ export default {
             try {
                 if (isEditMode.value) {
                     await invoiceStore.updateInvoice(route.params.id, formData);
-                    alert('Factura actualizada exitosamente');
+                    Swal.fire(
+                        "✅ Actualizada",
+                        "La factura fue actualizada exitosamente",
+                        "success"
+                    );
                 } else {
                     await invoiceStore.createInvoice(formData);
-                    alert('Factura creada exitosamente');
+                    Swal.fire(
+                        "✅ Actualizada",
+                        "La factura fue creada exitosamente",
+                        "success"
+                    );
                 }
-                router.push('/invoices');
+                router.push("/invoices");
             } catch (err) {
-                error.value = err.response?.data?.message || 'Error al guardar la factura';
+                error.value =
+                    err.response?.data?.message ||
+                    "Error al guardar la factura";
             } finally {
                 loading.value = false;
             }
         };
 
         const formatNumber = (number) => {
-            return new Intl.NumberFormat('es-CO').format(number || 0);
+            return new Intl.NumberFormat("es-CO").format(number || 0);
         };
 
         onMounted(() => {
             loadCustomers();
             loadInvoice();
-            
+
             // Agregar un item por defecto si es nuevo
             if (!isEditMode.value && formData.items.length === 0) {
                 addItem();
@@ -447,9 +522,9 @@ export default {
             calculateItemTotal,
             handleFileUpload,
             handleSubmit,
-            formatNumber
+            formatNumber,
         };
-    }
+    },
 };
 </script>
 

@@ -7,14 +7,18 @@
             </div>
             <h2 class="error-title">Página no encontrada</h2>
             <p class="error-message">
-                Lo sentimos, la página que estás buscando no existe o ha sido movida.
+                Lo sentimos, la página que estás buscando no existe o ha sido
+                movida.
             </p>
             <div class="error-actions">
                 <router-link to="/dashboard" class="btn btn-primary btn-lg">
                     <i class="bi bi-house-door me-2"></i>
                     Volver al Dashboard
                 </router-link>
-                <button @click="goBack" class="btn btn-outline-secondary btn-lg ms-3">
+                <button
+                    @click="goBack"
+                    class="btn btn-outline-secondary btn-lg ms-3"
+                >
                     <i class="bi bi-arrow-left me-2"></i>
                     Volver Atrás
                 </button>
@@ -24,10 +28,10 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 export default {
-    name: 'NotFound',
+    name: "NotFound",
     setup() {
         const router = useRouter();
 
@@ -36,9 +40,9 @@ export default {
         };
 
         return {
-            goBack
+            goBack,
         };
-    }
+    },
 };
 </script>
 

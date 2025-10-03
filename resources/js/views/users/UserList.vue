@@ -26,7 +26,11 @@
                     <!-- Rol -->
                     <div class="col-md-4">
                         <label class="form-label">Rol</label>
-                        <select class="form-select" v-model="filters.role" @change="applyFilters">
+                        <select
+                            class="form-select"
+                            v-model="filters.role"
+                            @change="applyFilters"
+                        >
                             <option value="">Todos</option>
                             <option value="admin">Administrador</option>
                             <option value="user">Usuario</option>
@@ -35,7 +39,10 @@
 
                     <!-- Limpiar -->
                     <div class="col-md-2 d-flex align-items-end">
-                        <button @click="clearFilters" class="btn btn-outline-secondary w-100">
+                        <button
+                            @click="clearFilters"
+                            class="btn btn-outline-secondary w-100"
+                        >
                             <i class="bi bi-x-circle me-1"></i>
                             Limpiar
                         </button>
@@ -62,8 +69,11 @@
                 </div>
 
                 <!-- Sin resultados -->
-                <div v-else-if="users.length === 0" class="text-center py-5 text-muted">
-                    <i class="bi bi-person-x" style="font-size: 3rem;"></i>
+                <div
+                    v-else-if="users.length === 0"
+                    class="text-center py-5 text-muted"
+                >
+                    <i class="bi bi-person-x" style="font-size: 3rem"></i>
                     <p class="mt-3">No se encontraron usuarios</p>
                 </div>
 
@@ -88,11 +98,13 @@
                                         <strong>{{ user.name }}</strong>
                                     </td>
                                     <td>
-                                        <a :href="`mailto:${user.email}`">{{ user.email }}</a>
+                                        <a :href="`mailto:${user.email}`">{{
+                                            user.email
+                                        }}</a>
                                     </td>
                                     <td>
-                                        <span 
-                                            v-for="role in user.roles" 
+                                        <span
+                                            v-for="role in user.roles"
                                             :key="role"
                                             :class="getRoleClass(role)"
                                             class="badge me-1"
@@ -108,32 +120,54 @@
                                                 class="btn btn-outline-warning"
                                                 title="Editar"
                                             >
-                                                <i class="bi bi-pencil">Editar</i>
+                                                <i class="bi bi-pencil"
+                                                    >Editar</i
+                                                >
                                             </router-link>
                                             <button
                                                 @click="confirmDelete(user)"
                                                 class="btn btn-outline-danger"
                                                 title="Eliminar"
-                                                :disabled="user.id === currentUserId"
+                                                :disabled="
+                                                    user.id === currentUserId
+                                                "
                                             >
-                                                <i class="bi bi-trash">Eliminar</i>
+                                                <i class="bi bi-trash"
+                                                    >Eliminar</i
+                                                >
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                            </tbody>    
+                            </tbody>
                         </table>
                     </div>
 
                     <!-- Paginación -->
-                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div
+                        class="d-flex justify-content-between align-items-center mt-3"
+                    >
                         <div class="text-muted">
-                            Mostrando {{ users.length }} de {{ pagination.total }} usuarios
+                            Mostrando {{ users.length }} de
+                            {{ pagination.total }} usuarios
                         </div>
                         <nav>
                             <ul class="pagination mb-0">
-                                <li class="page-item" :class="{ disabled: pagination.currentPage === 1 }">
-                                    <a class="page-link" href="#" @click.prevent="changePage(pagination.currentPage - 1)">
+                                <li
+                                    class="page-item"
+                                    :class="{
+                                        disabled: pagination.currentPage === 1,
+                                    }"
+                                >
+                                    <a
+                                        class="page-link"
+                                        href="#"
+                                        @click.prevent="
+                                            changePage(
+                                                pagination.currentPage - 1
+                                            )
+                                        "
+                                    >
                                         Anterior
                                     </a>
                                 </li>
@@ -141,14 +175,35 @@
                                     v-for="page in displayPages"
                                     :key="page"
                                     class="page-item"
-                                    :class="{ active: page === pagination.currentPage }"
+                                    :class="{
+                                        active: page === pagination.currentPage,
+                                    }"
                                 >
-                                    <a class="page-link" href="#" @click.prevent="changePage(page)">
+                                    <a
+                                        class="page-link"
+                                        href="#"
+                                        @click.prevent="changePage(page)"
+                                    >
                                         {{ page }}
                                     </a>
                                 </li>
-                                <li class="page-item" :class="{ disabled: pagination.currentPage === pagination.lastPage }">
-                                    <a class="page-link" href="#" @click.prevent="changePage(pagination.currentPage + 1)">
+                                <li
+                                    class="page-item"
+                                    :class="{
+                                        disabled:
+                                            pagination.currentPage ===
+                                            pagination.lastPage,
+                                    }"
+                                >
+                                    <a
+                                        class="page-link"
+                                        href="#"
+                                        @click.prevent="
+                                            changePage(
+                                                pagination.currentPage + 1
+                                            )
+                                        "
+                                    >
                                         Siguiente
                                     </a>
                                 </li>
@@ -162,13 +217,13 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive } from 'vue';
-import { useUserStore } from '@/stores/user';
-import { useAuthStore } from '@/stores/auth';
-
+import { computed, onMounted, reactive } from "vue";
+import { useUserStore } from "@/stores/user";
+import { useAuthStore } from "@/stores/auth";
+import Swal from "sweetalert2";
 
 export default {
-    name: 'UserList',
+    name: "UserList",
     setup() {
         const userStore = useUserStore();
         const authStore = useAuthStore();
@@ -180,8 +235,8 @@ export default {
         const currentUserId = computed(() => authStore.user?.id);
 
         const filters = reactive({
-            search: '',
-            role: ''
+            search: "",
+            role: "",
         });
 
         let searchTimeout = null;
@@ -203,8 +258,8 @@ export default {
         };
 
         const clearFilters = () => {
-            filters.search = '';
-            filters.role = '';
+            filters.search = "";
+            filters.role = "";
             userStore.clearFilters();
             loadUsers(1);
         };
@@ -212,7 +267,7 @@ export default {
         const changePage = (page) => {
             if (page >= 1 && page <= pagination.value.lastPage) {
                 loadUsers(page);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: "smooth" });
             }
         };
 
@@ -228,17 +283,18 @@ export default {
             } else {
                 if (current <= 4) {
                     for (let i = 1; i <= 5; i++) pages.push(i);
-                    pages.push('...');
+                    pages.push("...");
                     pages.push(last);
                 } else if (current >= last - 3) {
                     pages.push(1);
-                    pages.push('...');
+                    pages.push("...");
                     for (let i = last - 4; i <= last; i++) pages.push(i);
                 } else {
                     pages.push(1);
-                    pages.push('...');
-                    for (let i = current - 1; i <= current + 1; i++) pages.push(i);
-                    pages.push('...');
+                    pages.push("...");
+                    for (let i = current - 1; i <= current + 1; i++)
+                        pages.push(i);
+                    pages.push("...");
                     pages.push(last);
                 }
             }
@@ -247,33 +303,57 @@ export default {
         });
 
         const formatDate = (date) => {
-            return new Date(date).toLocaleDateString('es-CO', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+            return new Date(date).toLocaleDateString("es-CO", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
             });
         };
 
         const getRoleClass = (role) => {
-            return role === 'admin' ? 'bg-warning text-dark' : 'bg-info';
+            return role === "admin" ? "bg-warning text-dark" : "bg-info";
         };
 
         const getRoleText = (role) => {
-            return role === 'admin' ? 'Administrador' : 'Usuario';
+            return role === "admin" ? "Administrador" : "Usuario";
         };
 
         const confirmDelete = async (user) => {
             if (user.id === currentUserId.value) {
-                alert('No puedes eliminar tu propio usuario');
+                Swal.fire(
+                    "Acción no permitida",
+                    "No puedes eliminar tu propio usuario.",
+                    "warning"
+                );
                 return;
             }
 
-            if (confirm(`¿Estás seguro de eliminar al usuario ${user.name}?\n\nEsta acción no se puede deshacer.`)) {
+            const result = await Swal.fire({
+                title: "¿Estás seguro?",
+                text: `Se eliminará al usuario ${user.name}. Esta acción no se puede deshacer.`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar",
+            });
+
+            if (result.isConfirmed) {
                 try {
                     await userStore.deleteUser(user.id);
-                    alert('Usuario eliminado exitosamente');
+                    await Swal.fire(
+                        "Eliminado",
+                        `El usuario ${user.name} fue eliminado exitosamente.`,
+                        "success"
+                    );
                 } catch (error) {
-                    alert(userStore.error || 'Error al eliminar el usuario');
+                    Swal.fire(
+                        "Error",
+                        userStore.error ||
+                            "Hubo un problema al eliminar el usuario.",
+                        "error"
+                    );
                 }
             }
         };
@@ -297,9 +377,9 @@ export default {
             formatDate,
             getRoleClass,
             getRoleText,
-            confirmDelete
+            confirmDelete,
         };
-    }
+    },
 };
 </script>
 

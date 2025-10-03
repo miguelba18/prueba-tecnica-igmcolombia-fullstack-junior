@@ -19,25 +19,25 @@
             <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>
-                    <i class="bi bi-receipt"></i> 
+                    <i class="bi bi-receipt"></i>
                     Factura {{ invoice.invoice_number }}
                 </h2>
                 <div class="btn-group">
-                    <router-link to="/invoices" class="btn btn-outline-secondary">
+                    <router-link
+                        to="/invoices"
+                        class="btn btn-outline-secondary"
+                    >
                         <i class="bi bi-arrow-left me-2"></i>
                         Volver
                     </router-link>
-                    <router-link 
-                        :to="`/invoices/${invoice.id}/edit`" 
+                    <router-link
+                        :to="`/invoices/${invoice.id}/edit`"
                         class="btn btn-warning"
                     >
                         <i class="bi bi-pencil me-2"></i>
                         Editar
                     </router-link>
-                    <button 
-                        @click="confirmDelete" 
-                        class="btn btn-danger"
-                    >
+                    <button @click="confirmDelete" class="btn btn-danger">
                         <i class="bi bi-trash me-2"></i>
                         Eliminar
                     </button>
@@ -51,31 +51,43 @@
                         <div class="col-md-6">
                             <h5>
                                 Estado Actual:
-                                <span :class="getStatusClass(invoice.status)" class="ms-2">
+                                <span
+                                    :class="getStatusClass(invoice.status)"
+                                    class="ms-2"
+                                >
                                     {{ getStatusText(invoice.status) }}
                                 </span>
                             </h5>
                         </div>
                         <div class="col-md-6 text-end">
                             <div class="btn-group">
-                                <button 
+                                <button
                                     @click="changeStatus('pending')"
                                     class="btn btn-sm btn-warning"
-                                    :disabled="invoice.status === 'pending' || changingStatus"
+                                    :disabled="
+                                        invoice.status === 'pending' ||
+                                        changingStatus
+                                    "
                                 >
                                     Marcar Pendiente
                                 </button>
-                                <button 
+                                <button
                                     @click="changeStatus('paid')"
                                     class="btn btn-sm btn-success"
-                                    :disabled="invoice.status === 'paid' || changingStatus"
+                                    :disabled="
+                                        invoice.status === 'paid' ||
+                                        changingStatus
+                                    "
                                 >
                                     Marcar Pagada
                                 </button>
-                                <button 
+                                <button
                                     @click="changeStatus('overdue')"
                                     class="btn btn-sm btn-danger"
-                                    :disabled="invoice.status === 'overdue' || changingStatus"
+                                    :disabled="
+                                        invoice.status === 'overdue' ||
+                                        changingStatus
+                                    "
                                 >
                                     Marcar Vencida
                                 </button>
@@ -99,12 +111,16 @@
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <strong>Número de Factura:</strong><br>
-                                    <span class="text-primary fs-5">{{ invoice.invoice_number }}</span>
+                                    <strong>Número de Factura:</strong><br />
+                                    <span class="text-primary fs-5">{{
+                                        invoice.invoice_number
+                                    }}</span>
                                 </div>
                                 <div class="col-md-6">
-                                    <strong>Estado:</strong><br>
-                                    <span :class="getStatusClass(invoice.status)">
+                                    <strong>Estado:</strong><br />
+                                    <span
+                                        :class="getStatusClass(invoice.status)"
+                                    >
                                         {{ getStatusText(invoice.status) }}
                                     </span>
                                 </div>
@@ -112,13 +128,16 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <strong>Fecha de Emisión:</strong><br>
+                                    <strong>Fecha de Emisión:</strong><br />
                                     {{ formatDate(invoice.issue_date) }}
                                 </div>
                                 <div class="col-md-6">
-                                    <strong>Fecha de Vencimiento:</strong><br>
+                                    <strong>Fecha de Vencimiento:</strong><br />
                                     {{ formatDate(invoice.due_date) }}
-                                    <span v-if="invoice.is_overdue" class="badge bg-danger ms-2">
+                                    <span
+                                        v-if="invoice.is_overdue"
+                                        class="badge bg-danger ms-2"
+                                    >
                                         Vencida
                                     </span>
                                 </div>
@@ -126,14 +145,14 @@
 
                             <div class="row mb-3" v-if="invoice.description">
                                 <div class="col-12">
-                                    <strong>Descripción:</strong><br>
+                                    <strong>Descripción:</strong><br />
                                     {{ invoice.description }}
                                 </div>
                             </div>
 
                             <div class="row" v-if="invoice.notes">
                                 <div class="col-12">
-                                    <strong>Notas:</strong><br>
+                                    <strong>Notas:</strong><br />
                                     {{ invoice.notes }}
                                 </div>
                             </div>
@@ -151,27 +170,34 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-md-6">
-                                    <strong>Nombre:</strong><br>
+                                    <strong>Nombre:</strong><br />
                                     {{ invoice.customer.full_name }}
                                 </div>
                                 <div class="col-md-6">
-                                    <strong>Documento:</strong><br>
-                                    {{ invoice.customer.document_type }} - {{ invoice.customer.document_number }}
+                                    <strong>Documento:</strong><br />
+                                    {{ invoice.customer.document_type }} -
+                                    {{ invoice.customer.document_number }}
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-6">
-                                    <strong>Email:</strong><br>
-                                    <a :href="`mailto:${invoice.customer.email}`">{{ invoice.customer.email }}</a>
+                                    <strong>Email:</strong><br />
+                                    <a
+                                        :href="`mailto:${invoice.customer.email}`"
+                                        >{{ invoice.customer.email }}</a
+                                    >
                                 </div>
-                                <div class="col-md-6" v-if="invoice.customer.phone">
-                                    <strong>Teléfono:</strong><br>
+                                <div
+                                    class="col-md-6"
+                                    v-if="invoice.customer.phone"
+                                >
+                                    <strong>Teléfono:</strong><br />
                                     {{ invoice.customer.phone }}
                                 </div>
                             </div>
                             <div class="row" v-if="invoice.customer.address">
                                 <div class="col-12">
-                                    <strong>Dirección:</strong><br>
+                                    <strong>Dirección:</strong><br />
                                     {{ invoice.customer.address }}
                                 </div>
                             </div>
@@ -192,25 +218,54 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>Descripción</th>
-                                            <th class="text-center">Cantidad</th>
-                                            <th class="text-end">Precio Unit.</th>
+                                            <th class="text-center">
+                                                Cantidad
+                                            </th>
+                                            <th class="text-end">
+                                                Precio Unit.
+                                            </th>
                                             <th class="text-center">IVA</th>
                                             <th class="text-end">Subtotal</th>
                                             <th class="text-end">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="item in invoice.items" :key="item.id">
+                                        <tr
+                                            v-for="item in invoice.items"
+                                            :key="item.id"
+                                        >
                                             <td>
                                                 <strong>{{ item.name }}</strong>
-                                                <br>
-                                                <small class="text-muted">{{ item.description }}</small>
+                                                <br />
+                                                <small class="text-muted">{{
+                                                    item.description
+                                                }}</small>
                                             </td>
-                                            <td class="text-center">{{ item.quantity }}</td>
-                                            <td class="text-end">${{ formatNumber(item.unit_price) }}</td>
-                                            <td class="text-center">{{ item.tax_rate }}%</td>
-                                            <td class="text-end">${{ formatNumber(item.subtotal) }}</td>
-                                            <td class="text-end"><strong>${{ formatNumber(item.total) }}</strong></td>
+                                            <td class="text-center">
+                                                {{ item.quantity }}
+                                            </td>
+                                            <td class="text-end">
+                                                ${{
+                                                    formatNumber(
+                                                        item.unit_price
+                                                    )
+                                                }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ item.tax_rate }}%
+                                            </td>
+                                            <td class="text-end">
+                                                ${{
+                                                    formatNumber(item.subtotal)
+                                                }}
+                                            </td>
+                                            <td class="text-end">
+                                                <strong
+                                                    >${{
+                                                        formatNumber(item.total)
+                                                    }}</strong
+                                                >
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -233,16 +288,26 @@
                             <table class="table table-sm mb-0">
                                 <tr>
                                     <td><strong>Subtotal:</strong></td>
-                                    <td class="text-end">${{ formatNumber(invoice.subtotal) }}</td>
+                                    <td class="text-end">
+                                        ${{ formatNumber(invoice.subtotal) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><strong>IVA:</strong></td>
-                                    <td class="text-end">${{ formatNumber(invoice.tax_amount) }}</td>
+                                    <td class="text-end">
+                                        ${{ formatNumber(invoice.tax_amount) }}
+                                    </td>
                                 </tr>
                                 <tr class="table-primary">
                                     <td><strong>TOTAL:</strong></td>
                                     <td class="text-end">
-                                        <strong class="fs-5">${{ formatNumber(invoice.total_amount) }}</strong>
+                                        <strong class="fs-5"
+                                            >${{
+                                                formatNumber(
+                                                    invoice.total_amount
+                                                )
+                                            }}</strong
+                                        >
                                     </td>
                                 </tr>
                             </table>
@@ -258,9 +323,9 @@
                             </h6>
                         </div>
                         <div class="card-body">
-                            <a 
-                                :href="invoice.attachment_path" 
-                                target="_blank" 
+                            <a
+                                :href="invoice.attachment_path"
+                                target="_blank"
                                 class="btn btn-outline-primary w-100"
                             >
                                 <i class="bi bi-download me-2"></i>
@@ -279,15 +344,15 @@
                         </div>
                         <div class="card-body">
                             <p class="mb-2">
-                                <strong>Creado por:</strong><br>
+                                <strong>Creado por:</strong><br />
                                 {{ invoice.user?.name }}
                             </p>
                             <p class="mb-2">
-                                <strong>Fecha de creación:</strong><br>
+                                <strong>Fecha de creación:</strong><br />
                                 {{ formatDateTime(invoice.created_at) }}
                             </p>
                             <p class="mb-0">
-                                <strong>Última actualización:</strong><br>
+                                <strong>Última actualización:</strong><br />
                                 {{ formatDateTime(invoice.updated_at) }}
                             </p>
                         </div>
@@ -299,12 +364,13 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useInvoiceStore } from '@/stores/invoice';
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useInvoiceStore } from "@/stores/invoice";
+import Swal from "sweetalert2";
 
 export default {
-    name: 'InvoiceDetail',
+    name: "InvoiceDetail",
     setup() {
         const route = useRoute();
         const router = useRouter();
@@ -320,23 +386,44 @@ export default {
             error.value = null;
 
             try {
-                invoice.value = await invoiceStore.fetchInvoice(route.params.id);
+                invoice.value = await invoiceStore.fetchInvoice(
+                    route.params.id
+                );
             } catch (err) {
-                error.value = 'Error al cargar la factura';
+                error.value = "Error al cargar la factura";
             } finally {
                 loading.value = false;
             }
         };
 
         const changeStatus = async (newStatus) => {
-            if (confirm(`¿Estás seguro de cambiar el estado a ${getStatusText(newStatus)}?`)) {
+            const result = await Swal.fire({
+                title: "¿Estás seguro?",
+                text: `El estado cambiará a ${getStatusText(newStatus)}.`,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Sí, cambiar",
+                cancelButtonText: "Cancelar",
+            });
+
+            if (result.isConfirmed) {
                 changingStatus.value = true;
                 try {
-                    await invoiceStore.changeInvoiceStatus(invoice.value.id, newStatus);
+                    await invoiceStore.changeInvoiceStatus(
+                        invoice.value.id,
+                        newStatus
+                    );
                     invoice.value.status = newStatus;
-                    alert('Estado actualizado exitosamente');
+
+                    await Swal.fire(
+                        "Estado actualizado",
+                        "El estado de la factura fue cambiado exitosamente",
+                        "success"
+                    );
                 } catch (err) {
-                    alert('Error al cambiar el estado');
+                    Swal.fire("Error", "No se pudo cambiar el estado", "error");
                 } finally {
                     changingStatus.value = false;
                 }
@@ -344,53 +431,72 @@ export default {
         };
 
         const confirmDelete = async () => {
-            if (confirm('¿Estás seguro de eliminar esta factura? Esta acción no se puede deshacer.')) {
+            const result = await Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Esta acción no se puede deshacer.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar",
+            });
+
+            if (result.isConfirmed) {
                 try {
                     await invoiceStore.deleteInvoice(invoice.value.id);
-                    alert('Factura eliminada exitosamente');
-                    router.push('/invoices');
+                    await Swal.fire(
+                        "Eliminada",
+                        "La factura fue eliminada exitosamente",
+                        "success"
+                    );
+                    router.push("/invoices");
                 } catch (err) {
-                    alert('Error al eliminar la factura');
+                    Swal.fire(
+                        "Error",
+                        "Hubo un problema al eliminar la factura",
+                        "error"
+                    );
                 }
             }
         };
 
         const formatDate = (date) => {
-            return new Date(date).toLocaleDateString('es-CO', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+            return new Date(date).toLocaleDateString("es-CO", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
             });
         };
 
         const formatDateTime = (datetime) => {
-            return new Date(datetime).toLocaleString('es-CO', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
+            return new Date(datetime).toLocaleString("es-CO", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
             });
         };
 
         const formatNumber = (number) => {
-            return new Intl.NumberFormat('es-CO').format(number || 0);
+            return new Intl.NumberFormat("es-CO").format(number || 0);
         };
 
         const getStatusClass = (status) => {
             const classes = {
-                pending: 'badge bg-warning text-dark',
-                paid: 'badge bg-success',
-                overdue: 'badge bg-danger'
+                pending: "badge bg-warning text-dark",
+                paid: "badge bg-success",
+                overdue: "badge bg-danger",
             };
-            return classes[status] || 'badge bg-secondary';
+            return classes[status] || "badge bg-secondary";
         };
 
         const getStatusText = (status) => {
             const texts = {
-                pending: 'Pendiente',
-                paid: 'Pagada',
-                overdue: 'Vencida'
+                pending: "Pendiente",
+                paid: "Pagada",
+                overdue: "Vencida",
             };
             return texts[status] || status;
         };
@@ -410,9 +516,9 @@ export default {
             formatDateTime,
             formatNumber,
             getStatusClass,
-            getStatusText
+            getStatusText,
         };
-    }
+    },
 };
 </script>
 

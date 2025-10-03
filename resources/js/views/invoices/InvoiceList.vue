@@ -209,6 +209,7 @@
 import { ref, computed, onMounted, reactive } from 'vue';
 import { useInvoiceStore } from '@/stores/invoice';
 import { useCustomerStore } from '@/stores/customer';
+import Swal from 'sweetalert2';
 
 export default {
     name: 'InvoiceList',
@@ -326,15 +327,34 @@ export default {
         };
 
         const confirmDelete = async (invoice) => {
-            if (confirm(`¿Estás seguro de eliminar la factura ${invoice.invoice_number}?`)) {
-                try {
-                    await invoiceStore.deleteInvoice(invoice.id);
-                    alert('Factura eliminada exitosamente');
-                } catch (error) {
-                    alert('Error al eliminar la factura: ' + error.message);
-                }
-            }
-        };
+  const result = await Swal.fire({
+    title: '¿Estás seguro?',
+    text: `Se eliminará la factura ${invoice.invoice_number}. Esta acción no se puede deshacer.`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await invoiceStore.deleteInvoice(invoice.id);
+      await Swal.fire(
+        'Eliminada',
+        `La factura ${invoice.invoice_number} fue eliminada exitosamente.`,
+        'success'
+      );
+    } catch (error) {
+      Swal.fire(
+        'Error',
+        `No se pudo eliminar la factura: ${error.message}`,
+        'error'
+      );
+    }
+  }
+};
 
         onMounted(() => {
             loadInvoices();
